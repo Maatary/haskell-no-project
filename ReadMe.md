@@ -6,7 +6,7 @@ This project is part of an introductory work on how to compile and use dependenc
 
 ## Compiling Haskell Sources With No External Dependencies to Produce an Executable Without Resorting to Packaging
 
-Compiling the haskell sources of a project without resorting to packaging is done as follows:
+Compiling the haskell sources of a project, without resorting to packaging is done as follows:
 
  - First we create non-package managed project a.k.a. a non-source package project. This is essentially a folder where we have our haskell source files.
 
@@ -87,9 +87,9 @@ Compiling the haskell sources of a project without resorting to packaging is don
 
 ## Compiling Haskell Sources With External Dependencies to Produce an Executable Without Resorting to Packaging
 
-Compiling the haskell sources of a project with external dependencies without resorting to packaging is done as follows:
+Compiling the haskell sources of a project with external dependencies, without resorting to packaging, is done as follows:
 
-- First, from within the current project (haskell-no-project), Download the depenendency manually and unpack it.
+- First, from within the current project (haskell-no-project), download the depenendency manually and unpack it.
 
   - For this demo we will be using the **TimeIt** library which can be found on [hackage](https://hackage.haskell.org/package/timeit) or better [stackage](https://www.stackage.org/lts-19.24/package/timeit-2.0). It provides for the functionality to time functions (monadic functions).
   
@@ -100,9 +100,11 @@ Compiling the haskell sources of a project with external dependencies without re
   - If you would like to open the timeIT project independenly of this project, using the LHS extension for VsCode to benefit from IDE assistance while browsing the code, you have the option to use my [fork of the TimeIt project](https://github.com/Maatary/timeit) which has been adapted to work smoothly with LHS extension for VSCode. The ReadMe of the project explain the adaptation.
 
       ```shell
-      $ curl http://hackage.haskell.org/package/timeit-2.0/timeit-2.0.tar.gz --output timeit-2.0.tar.gz                                              ❶
-      $ tar -xf timeit-2.0.tar.gz                                                ❷
+      $ curl http://hackage.haskell.org/package/timeit-2.0/timeit-2.0.tar.gz --output timeit-2.0.tar.gz                                              
+      $ tar -xf timeit-2.0.tar.gz                                                
       $ cd timeit-2.0
       ```
 
-- Note that, In
+- The project tree should now look like so
+
+   ![project tree](full-project-tree.png)
