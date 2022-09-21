@@ -1,9 +1,10 @@
 module Test where
   
+  import System.TimeIt
   import Greetings.SayHello
 
   main :: IO ()
-  main = sayHello "Maat"
+  main = timeItNamed "sayhello" $ sayHello "Maat"
 
   
 
