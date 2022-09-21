@@ -6,7 +6,7 @@ This project is part of an introductory work on how to compile and use dependenc
 
 ## Compiling Haskell Sources With No External Dependencies to Produce an Executable Without Resorting to Packaging
 
-compiling haskell sources project without resorting to packaging is done as follows:
+Compiling the haskell sources of a project without resorting to packaging is done as follows:
 
  - First we create non-package managed project a.k.a. a non-source package project. This is essentially a folder where we have our haskell source files.
 
@@ -39,7 +39,7 @@ compiling haskell sources project without resorting to packaging is done as foll
  - Now we show how to compile the project without dependencies in order to produce an executable
 
     ```shell
-     ghc Test.hs -main-is Test
+     $ ghc Test.hs -main-is Test
     ```
 
  - Few things are happening here: 
@@ -49,18 +49,18 @@ compiling haskell sources project without resorting to packaging is done as foll
 
    - GHC ccompile the code into an inteface file Test.hi and library object file Test.o and then link Library Object file into an executable file Test. We can run the executable as follows:
         ```shell
-        ./Test
+        $ ./Test
         Hello, Maat and welcome to Haskell!
         ```
   
    - Typically the convention is to call the module containing the **main function** **Main**, and the containing file as per haskell module rules **Main.hs**. If done according to the convention we could have simply type
         ```shell
-        ghc Main.hs 
+        $ ghc Main.hs 
         ``` 
 
     - However for the **Main module** **the rule for "module" / "source file" strict name correspondance** are actually relaxed. So we could have had the file called **Test.hs** and the module inside it **Main** and then type
         ```shell
-         ghc Test.hs 
+        $ ghc Test.hs 
         ```
 
     - Moreover we could have simply ommit the **Main** module inside the **Test.hs** and type the same as above. When that is the case, GHC consider that there is an implicit Main module.
@@ -87,6 +87,22 @@ compiling haskell sources project without resorting to packaging is done as foll
 
 ## Compiling Haskell Sources With External Dependencies to Produce an Executable Without Resorting to Packaging
 
- - Download a depenendency manually
-   - In the demo we use my fork of the timeit project located on github. 
-   - Typically however, we would download its tarball from [hackage](https://hackage.haskell.org/package/timeit) or better [stackage]([https://](https://www.stackage.org/lts-19.24/package/timeit-2.0)) and unpack it, in its folder within out current haskell source folder.
+Compiling the haskell sources of a project with external dependencies without resorting to packaging is done as follows:
+
+- First, from within the current project (haskell-no-project), Download the depenendency manually and unpack it.
+
+  - For this demo we will be using the **TimeIt** library which can be found on [hackage](https://hackage.haskell.org/package/timeit) or better [stackage](https://www.stackage.org/lts-19.24/package/timeit-2.0). It provides for the functionality to time functions (monadic functions).
+  
+  - **It is important to note at this point that, in haskell, code which represent library, are made available online as package. In other words, code intended to be used by other as distributed as package. A Package among other, play the role of a unit of distribution in Haskell. ** 
+  
+  - Going into the detail of how package and packaging works is beyond the scope of this project, as the goal is to somewhat explain compilation without them. However because we need to work with a dependency, such as to illustrate how to work with an external code, we had to download one, because in haskell anything that is available online is packaged. However, as will be illustrating further below, we will not use the haskell packaging appraoch. We will unpack it, and **"work as if"** it was just an external code that was not packaged originally. We say "work as if" because to speed up the all process we will make a  minimal use the packaging facility, althought that is low level enough to keep being able to illustrate our point. Without it the real process would be somewhat long and painfull. We will however provide reference pointing to how to do it fully bare along the way.
+
+  - If you would like to open the timeIT project independenly of this project, using the LHS extension for VsCode to benefit from IDE assistance while browsing the code, you have the option to use my [fork of the TimeIt project](https://github.com/Maatary/timeit) which has been adapted to work smoothly with LHS extension for VSCode. The ReadMe of the project explain the adaptation.
+
+      ```shell
+      $ curl http://hackage.haskell.org/package/timeit-2.0/timeit-2.0.tar.gz --output timeit-2.0.tar.gz                                              ❶
+      $ tar -xf timeit-2.0.tar.gz                                                ❷
+      $ cd timeit-2.0
+      ```
+
+- Note that, In
