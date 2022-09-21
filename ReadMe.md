@@ -4,7 +4,7 @@ This project is part of an introductory work on how to compile and use dependenc
 
 # Appraoch
 
-## Compiling Haskell Sources to Produce an Executable
+## Compiling Haskell Sources With No External Dependencies to Produce an Executable Without Resorting to Packaging
 
 compiling haskell sources project without resorting to packaging is done as follows:
 
@@ -73,6 +73,8 @@ compiling haskell sources project without resorting to packaging is done as foll
 
 
     - It is important to note if none the rules on specifying the main function explicitly or implicitly as explained  above, and we simply type `ghc Test.hs` where in the **Test.hs** we have the **Test Module define** as in our current code base, then GHC would not generate an executable but simply compile the sources into the interface files and library object files.
+  
+    - Finally when the program contains multiple modules as inour codebase, then we only need to tell GHC the name of the source file containing the Main module, and GHC will examine the import declarations to find the other modules that make up the program and find their source files. This means that, with the exception of the Main module, every source file should be named after the module name that it contains (with dots replaced by directory separators). That why Greetings.SayHello is in Greeting/SayHello and GHC can find it.
 
 
     - References
@@ -83,6 +85,7 @@ compiling haskell sources project without resorting to packaging is done as foll
       - https://www.haskell.org/onlinereport/haskell2010/haskellch5.html (Abbreviated form for the module Main)
       - https://stackoverflow.com/questions/11112371/to-write-or-not-to-write-module-main-where-in-haskell
 
+## Compiling Haskell Sources With External Dependencies to Produce an Executable Without Resorting to Packaging
 
  - Download a depenendency manually
    - In the demo we use my fork of the timeit project located on github. 
