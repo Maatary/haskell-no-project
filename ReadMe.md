@@ -58,12 +58,12 @@ Compiling the haskell sources of a project, without resorting to packaging is do
         $ ghc Main.hs 
         ``` 
 
-    - However for the **Main module** **the rule for "module" / "source file" strict name correspondance** are actually relaxed. So we could have had the file called **Test.hs** and the module inside it **Main** and then type
+   - However for the **Main module** **the rule for "module" / "source file" strict name correspondance** are actually relaxed. So we could have had the file called **Test.hs** and the module inside it **Main** and then type
         ```shell
         $ ghc Test.hs 
         ```
 
-    - Moreover we could have simply ommit the **Main** module inside the **Test.hs** and type the same as above. When that is the case, GHC consider that there is an implicit Main module.
+   - Moreover we could have simply ommit the **Main** module inside the **Test.hs** and type the same as above. When that is the case, GHC consider that there is an implicit Main module.
         ```haskell
         import Greetings.SayHello
 
@@ -72,19 +72,27 @@ Compiling the haskell sources of a project, without resorting to packaging is do
         ```
 
 
-    - It is important to note if none the rules on specifying the main function explicitly or implicitly as explained  above, and we simply type `ghc Test.hs` where in the **Test.hs** we have the **Test Module define** as in our current code base, then GHC would not generate an executable but simply compile the sources into the interface files and library object files.
+   - It is important to note if none the rules on specifying the main function explicitly or implicitly as explained  above, and we simply type `ghc Test.hs` where in the **Test.hs** we have the **Test Module define** as in our current code base, then GHC would not generate an executable but simply compile the sources into the interface files and library object files.
   
-    - Finally when the program contains multiple modules, such as in our codebase, then we only need to tell GHC the name of the source file containing the Main module, and GHC will examine the import declarations to find the other modules that make up the program and find their source files. This means that, with the exception of the Main module, every source file should be named after the module name that it contains (with dots replaced by directory separators). That's why Greetings.SayHello, which as per haskell namespace rules is in Greeting/SayHello can be found by GHC during compilation. For more on module hiearchy and namespace please read the main learning project which this project complement https://github.com/Maatary/haskell-from-first-principles#module-hierarchy-namespaces-and-directory-structure
+   - Finally when the program contains multiple modules, such as in our codebase, then we only need to tell GHC the name of the source file containing the Main module, and GHC will examine the import declarations to find the other modules that make up the program and find their source files. This means that, with the exception of the Main module, every source file should be named after the module name that it contains (with dots replaced by directory separators). That's why Greetings.SayHello, which as per haskell namespace rules is in Greeting/SayHello can be found by GHC during compilation. For more on module hiearchy and namespace please read the main learning project which this project complement https://github.com/Maatary/haskell-from-first-principles#module-hierarchy-namespaces-and-directory-structure
 
 
-    - References
-      - https://downloads.haskell.org/ghc/9.0.2/docs/html/users_guide/using.html#using-ghc
-      - https://downloads.haskell.org/ghc/9.0.2/docs/html/users_guide/using.html#modes-of-operation
-      - https://downloads.haskell.org/ghc/9.0.2/docs/html/users_guide/using.html#make-mode
-      - https://downloads.haskell.org/ghc/9.0.2/docs/html/users_guide/phases.html?highlight=main#ghc-flag--main-is%20%E2%9F%A8thing%E2%9F%A9
-      - https://stackoverflow.com/questions/46895199/no-output-will-be-generated-because-there-is-no-main-module
-      - https://stackoverflow.com/questions/11112371/to-write-or-not-to-write-module-main-where-in-haskell
-      - https://www.haskell.org/onlinereport/haskell2010/haskellch5.html (Abbreviated form for the module Main)
+   - **GHC Comilation References**
+     - https://downloads.haskell.org/ghc/9.0.2/docs/html/users_guide/using.html#using-ghc
+     - https://downloads.haskell.org/ghc/9.0.2/docs/html/users_guide/using.html#modes-of-operation
+     - https://downloads.haskell.org/ghc/9.0.2/docs/html/users_guide/using.html#make-mode
+     - https://downloads.haskell.org/ghc/9.0.2/docs/html/users_guide/phases.html?highlight=main#ghc-flag--main-is%20%E2%9F%A8thing%E2%9F%A9
+     - https://stackoverflow.com/questions/46895199/no-output-will-be-generated-because-there-is-no-main-module
+     - https://stackoverflow.com/questions/11112371/to-write-or-not-to-write-module-main-where-in-haskell
+     - https://www.haskell.org/onlinereport/haskell2010/haskellch5.html (Abbreviated form for the module Main)
+  
+
+   - **Software Program Linkage References**
+     - https://en.wikipedia.org/wiki/Linker_(computing)
+     - https://en.wikipedia.org/wiki/Linkage_(software)
+     - https://en.wikipedia.org/wiki/Static_library
+     - https://en.wikipedia.org/wiki/Object_file
+     - https://gitlab.haskell.org/ghc/ghc/-/wikis/Extensible-Interface-Files
 
 ## Compiling Haskell Sources With External Dependencies to Produce an Executable Without Resorting to Packaging
 
