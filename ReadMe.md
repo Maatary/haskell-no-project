@@ -82,8 +82,9 @@ Compiling the haskell sources of a project, without resorting to packaging is do
       - https://downloads.haskell.org/ghc/9.0.2/docs/html/users_guide/using.html#modes-of-operation
       - https://downloads.haskell.org/ghc/9.0.2/docs/html/users_guide/using.html#make-mode
       - https://downloads.haskell.org/ghc/9.0.2/docs/html/users_guide/phases.html?highlight=main#ghc-flag--main-is%20%E2%9F%A8thing%E2%9F%A9
-      - https://www.haskell.org/onlinereport/haskell2010/haskellch5.html (Abbreviated form for the module Main)
+      - https://stackoverflow.com/questions/46895199/no-output-will-be-generated-because-there-is-no-main-module
       - https://stackoverflow.com/questions/11112371/to-write-or-not-to-write-module-main-where-in-haskell
+      - https://www.haskell.org/onlinereport/haskell2010/haskellch5.html (Abbreviated form for the module Main)
 
 ## Compiling Haskell Sources With External Dependencies to Produce an Executable Without Resorting to Packaging
 
