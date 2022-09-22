@@ -47,7 +47,7 @@ Compiling the haskell sources of a project, without resorting to packaging is do
    - With `ghc Test.hs` we tell GHC what source file to compile. With `-main-is Test` we tell GHC what is the Module containing the main function. 
 
 
-   - GHC ccompile the code into an inteface file Test.hi and library object file Test.o and then link Library Object file into an executable file Test. We can run the executable as follows:
+   - GHC ccompile the code into an inteface file **`Test.hi`** and library object file **`Test.o`** and then link it with whatever package/library already present in GHC that the program might use _(the base library in this instance as we use System.IO)_, into an executable file **Test**. We can run the executable as follows:
         ```shell
         $ ./Test
         Hello, Maat and welcome to Haskell!
@@ -104,16 +104,49 @@ Compiling the haskell sources of a project with external dependencies, without r
   
   - **It is important to note at this point that, in haskell, code which represent library, are made available online as package. In other words, code intended to be used by other as distributed as package. A Package among other, play the role of a unit of distribution in Haskell.**
   
-  - **Going into the detail of how package and packaging works is beyond the scope of this project, as the goal is to somewhat explain compilation without them.** However because we need to work with a dependency, such as to illustrate how to work with an external code, we had to download one, because in haskell anything that is available online is packaged. Nonetheless, as we will be illustrating further below, we will not use the haskell packaging appraoch. We will unpack it, and **"work as if"** it was just an external code that was not packaged originally. We say "work as if" because to speed up the all process **we will make a  minimal use of the packaging facility**, althought that is low level enough to keep being able to illustrate our point. Without it, the real process would be somewhat long and painfull. We will however provide references pointing to how to do it fully bare along the way.
+  - **Going into the detail of how package and packaging works is beyond the scope of this project, as the goal is to somewhat explain compilation without them.** However because we need to work with a dependency, such as to illustrate how to work with an external code, we had to download one, because in haskell anything that is available online is packaged. Nonetheless, as we will be illustrating further below, we will not use the haskell packaging appraoch. We will unpack it, and **"work as if"** it was just an external code that was not packaged originally. We say **"work as if"** because to speed up the all process **we will make a  minimal use of the packaging facility**, althought that is low level enough to keep being able to illustrate our point. Without it, the real process would be somewhat long and painfull. We will however provide references pointing to how to do it fully bare along the way.
 
   - If you would like to open the timeIT project independenly of this project, using the LHS extension for VsCode to benefit from IDE assistance while browsing the code, you have the option to use my [fork of the TimeIt project](https://github.com/Maatary/timeit) which has been adapted to work smoothly with LHS extension for VSCode. The ReadMe of the project explain the adaptation.
 
       ```shell
       $ curl http://hackage.haskell.org/package/timeit-2.0/timeit-2.0.tar.gz --output timeit-2.0.tar.gz                                              
       $ tar -xf timeit-2.0.tar.gz                                                
-      $ cd timeit-2.0
       ```
 
 - The project tree should now look like so
 
    ![project tree](full-project-tree.png)
+
+- We then register the library as follow
+
+   ```shell
+   $ cd timeit-2.0 
+   $ runhaskell Setup.hs configure 
+     Configuring timeit-2.0...
+
+   $ runhaskell Setup.hs build
+     Preprocessing library for timeit-2.0..
+     Building library for timeit-2.0..
+     [1 of 1] Compiling System.TimeIt ( System/TimeIt.hs, dist/build/System/TimeIt.o, dist/build/System/TimeIt.dyn_o )
+
+   $ runhaskell Setup.hs install
+     Installing library in /usr/local/lib/x86_64-osx-ghc-9.0.2/timeit-2.0-13BYXbUXu2MJzbvDZuPEww
+     Registering library for timeit-2.0..   
+   ```
+- To understand what happened let's look into the **dist** folder that has been produced has a result of running the command above.
+  
+  - The first take away is that `runhaskell Setup.hs build` will build the **`TimeIt.hi`** and **`TimeIt.o`** type files that we have introduced above, and link them into a static library ( i.e. **`.a`** file) together with whatever package already present in GHC that the program might use _(the base library in this instance as we use System.IO)_.  A dynamic library is also produced (i.e. **`.dylib`** file) with the equivalent **`TimeIt.dyn_hi`** and **`TimeIt.dyn_o`**
+  
+  - Next we can see that a file **`timeit-2.0-xxxx.conf`** was produced, which essentially provide a description of the package that is subsequently submitted to GHC when we register the library.
+  
+  - The **`Setup.sh`** script is essentially a **haskell program**, based on the **Cabal Library**, which is part of the defacto **haskell packaging low-level infrastructure** _(more on this later)_. Its role here* is to take a code that has been properly configured as a **_library source package_** and produce a **_library_** and **register** it in GHC. The file **_timeit.cabal_** is what make the timeit **_source package_** properly configured as a **_library source package_**. Terms like **_source package_**, **_Library source package_** or simply **_package_** will be fully explained when we dwelve into the haskell packaging system later on in this document. However, for our current intent this is enough information, because stricly speaking we did not have to use the **`Setup.sh`** script. This is what we meant earlier when we stated **"work as if"** in "_we will unpack it, and **"work as if"** it was just an external code that was not packaged originally_ " . That is, we are making **a minimal use** of the haskell packaging facility to register the external code. We say minimal here, because going all the way down to do it manually would be tedious as illustrated in the following reference [GHC - building a package from haskell source](https://downloads.haskell.org/ghc/9.0.2/docs/html/users_guide/packages.html?highlight=pkg#building-a-package-from-haskell-source). If we were using haskell packaging system, we would not even go trough downloading, unpacking and registering it ourself. All of those, would be done automatically for us. Hence we are here focus on illustrating how compilation works with external code even if we cheat a little by using the **`Setup.sh`** script.
+  
+  - The **`Setup.sh`** is illustrated below
+  
+      ```haskell
+      module Main where
+      import Distribution.Simple
+      main = defaultMain
+      ```
+
+  - Note that [runhaskell (or its alias runghc)](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/runghc.html) is simply a ghc command/script that allows you to run Haskell programs without first having to compile them. It uses the internal interprer of GHC. It takes as parameter the Main module. For example, rather than  using the **Test executable** we produce earlier, we could simply type `runhaskell Test.hs`. Here, we don't need an equivalent of `-main-is` because the command takes only the main module source file, while when we compile with GHC, the `ghc` command may take multiple source files as parameter, and therefore it needs to be told which module is the Main module.
