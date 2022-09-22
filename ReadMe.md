@@ -150,3 +150,9 @@ Compiling the haskell sources of a project with external dependencies, without r
       ```
 
   - Note that [runhaskell (or its alias runghc)](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/runghc.html) is simply a ghc command/script that allows you to run Haskell programs without first having to compile them. It uses the internal interprer of GHC. It takes as parameter the Main module. For example, rather than  using the **Test executable** we produce earlier, we could simply type `runhaskell Test.hs`. Here, we don't need an equivalent of `-main-is` because the command takes only the main module source file, while when we compile with GHC, the `ghc` command may take multiple source files as parameter, and therefore it needs to be told which module is the Main module.
+
+
+  - References about the **`Setup.sh`** script
+  
+    - [Cabal Doc - Setup.hs commands]( https://cabal.readthedocs.io/en/3.6/setup-commands.html?highlight=Setup.hs#setup-hs-commands)
+    - [The Haskell Package System: overview - 2.5. The Setup script](https://www.haskell.org/cabal/proposal-1.1/x122.html)
