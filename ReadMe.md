@@ -217,3 +217,62 @@ Therefore, this section serves the purpose to explain and remind us that **when 
 **GHC operates two package databases** by default: **the global one** and **a user-specific one**, arranged in a stack with the user-specific database on top. It starts searching for packages at the top of the stack and continues all the way to the bottom. We can specify additional databases or compile our project against a completely different stack of package databases using the GHC_PACKAGE_PATH environment variable. GHC supports many flags that manipulate package databases and particular packages. Although package database stack tuning is normally done by a **higher-level packaging system** (e.g. stack or cabal), the compiler itself is ready to work with any well-formed set of packages — it’s the job of **the packaging system** to provide what is needed for our project.
 
 We can look through all the packages registered with the currently installed GHC with the ghc-pkg list command or get information about the package that provides some module with ghc-pkg find-module. 
+
+```shell
+$ ghc-pkg find-module System.TimeIt
+/Users/maatari/.ghcup/ghc/9.0.2/lib/ghc-9.0.2/lib/package.conf.d
+    timeit-2.0
+$
+```
+
+```shell
+$ ghc-pkg describe timeit
+name:                 timeit
+version:              2.0
+visibility:           public
+id:                   timeit-2.0-13BYXbUXu2MJzbvDZuPEww
+key:                  timeit-2.0-13BYXbUXu2MJzbvDZuPEww
+license:              BSD-3-Clause
+copyright:            Copyright © 2009, Lennart Augustsson
+maintainer:
+    Merijn Verstraaten <merijn@inconsistent.nl>, Lennart Augustsson
+
+author:               Lennart Augustsson
+homepage:             https://github.com/merijn/timeit
+synopsis:             Time monadic computations with an IO base.
+description:
+    A simple wrapper to show the used CPU time of monadic computation with an
+    IO base.
+
+category:             System
+abi:                  1690023447541cc917b632a83af82298
+exposed:              True
+exposed-modules:      System.TimeIt
+import-dirs:
+    /usr/local/lib/x86_64-osx-ghc-9.0.2/timeit-2.0-13BYXbUXu2MJzbvDZuPEww
+
+library-dirs:
+    /usr/local/lib/x86_64-osx-ghc-9.0.2/timeit-2.0-13BYXbUXu2MJzbvDZuPEww
+
+dynamic-library-dirs: /usr/local/lib/x86_64-osx-ghc-9.0.2
+data-dir:             /usr/local/share/x86_64-osx-ghc-9.0.2/timeit-2.0
+hs-libraries:         HStimeit-2.0-13BYXbUXu2MJzbvDZuPEww
+depends:              base-4.15.1.0
+haddock-interfaces:
+    /usr/local/share/doc/x86_64-osx-ghc-9.0.2/timeit-2.0/html/timeit.haddock
+
+haddock-html:         /usr/local/share/doc/x86_64-osx-ghc-9.0.2/timeit-2.0/html
+pkgroot: "/Users/maatari/.ghcup/ghc/9.0.2/lib/ghc-9.0.2/lib"
+
+$
+```
+
+**PACKAGE ENVIRONMENTS** Besides using GHC package databases, we can maintain our own package databases. For example, we can create a package database for a specific project. The packages we have there don’t intervene with anything within a system. GHC can be instructed to load a specific package environment, which is a list of package databases and individual package IDs. Thus, we can run GHC in a separate environment created for this particular project. This is usually done using project management tools.
+
+
+References:
+
+ - [Haskell in Depth - 4 Haskell development with modules, packages, and projects - Packages at the GHC level](https://learning.oreilly.com/library/view/haskell-in-depth/9781617295409/OEBPS/Text/04.htm#heading_id_8)
+ - [GHC User Guide - 5.9. Package - Package Databases](https://downloads.haskell.org/ghc/9.0.2/docs/html/users_guide/packages.html?highlight=pkg#package-databases)
+ - [GHC User Guide - 5.9. Package](https://downloads.haskell.org/ghc/9.0.2/docs/html/users_guide/packages.html)
+  
