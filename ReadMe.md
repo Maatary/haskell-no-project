@@ -1,10 +1,18 @@
 # Overview
 
-This project is part of an introductory work on how to compile and use dependencies in haskell project without resorting to packaging, which falls into [my overall haskell learning journey project](https://github.com/Maatary/haskell-from-first-principles). 
+This project is an introductory work on understanding  how to compile haskell code and how the fundemantal of the haskell packaging system works. It is part of [my overall haskell learning journey project](https://github.com/Maatary/haskell-from-first-principles).   
 
 # Appraoch
 
-## Compiling Haskell Sources With No External Dependencies to Produce an Executable Without Resorting to Packaging
+It starts first with explaining how a simple haskell project that does not involve any external dependencies get compiled to produce an executable, and such without resorting to the use of the haskell packaging system.  
+
+Next, in order to start explaining the fundamental of the haskell packaging system, it showcase how to compile a haskell project that use external dependencies, yet still, without resorting to the use of the  haskell packaging ststem.  
+
+Finally, the fundementals of the haskell packaging system is explained.
+
+
+
+# Compiling Haskell Sources With No External Dependencies to Produce an Executable Without Resorting to Packaging
 
 Compiling the haskell sources of a project, without resorting to packaging is done as follows:
 
@@ -94,7 +102,7 @@ Compiling the haskell sources of a project, without resorting to packaging is do
      - https://en.wikipedia.org/wiki/Object_file
      - https://gitlab.haskell.org/ghc/ghc/-/wikis/Extensible-Interface-Files
 
-## Compiling Haskell Sources With External Dependencies to Produce an Executable Without Resorting to Packaging
+# Compiling Haskell Sources With External Dependencies to Produce an Executable Without Resorting to Packaging
 
 Compiling the haskell sources of a project with external dependencies, without resorting to packaging, is done as follows:
 
