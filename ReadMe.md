@@ -170,3 +170,33 @@ Compiling the haskell sources of a project with external dependencies, without r
 
 # Understanding Haskell Package From GHC perspective
 
+Every **application** or **library** intended to be used by others should somehow be **distributed** to its users. The way that mechanism is implemented in haskell is via package. That is, the code must be distributed as package for others to use it. This is why the timeit external code we used was actually set up as package or more specifically a source package (more on this later).
+
+When **applications** or **libraries** source code use modules provided by **other libraries**, the **compiler** needs to know **where those libraries reside in the file system**, in order to compile their code. It to be noted that, as can be seen in our source code above, there is no information about the **required external libraries** in Haskell source codes. The only information the compiler can get out of the source code is the set of names of the modules that are in use trough the **import statements**. This is where the need for **registration** _(as we have done above)_ comes from. In order to fully understand this, we depict how the GHC compilation pipeline works under the hood in the picture below    
+
+
+
+![project tree](ghc-compilation-pipeline.png)
+
+
+
+The compiler performs the following five main steps during compilation:
+
+ 1. Reads the names of the imported modules from the source files.
+
+ 2. **Consults the package database _(associated with the particular distribution of the compiler)_. This database contains information about all the registered packages. GHC finds out which packages provide the required modules and where exactly in the file system all the corresponding artifacts are located.**
+
+ 3. Looks for the **interface files** of the modules (containing information about what those modules export and import) and uses this information to compile the modules.
+
+ 4. At the stage of linking, looks for **static or dynamic library** files provided by the packages.
+
+ 5. **Links** all **static or dynamic libraries** to the program **executable** or **library**.
+
+
+These steps give us **the definition of a package from the point of view of the compiler**. A package is a collection of the following items:
+
+ - **Interface files for every exported module**
+
+ - **Compiled library files (either static or dynamic)**
+  
+ - **The package descriptor file** *(not show in the picture but mentioned earlier as a .conf file)*
