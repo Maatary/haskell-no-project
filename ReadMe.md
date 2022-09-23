@@ -170,6 +170,8 @@ Compiling the haskell sources of a project with external dependencies, without r
 
 # Understanding Haskell Package From GHC perspective
 
+## The GHC Compilation Pipeline
+
 Every **application** or **library** intended to be used by others should somehow be **distributed** to its users. The way that mechanism is implemented in haskell is via package. That is, the code must be distributed as package for others to use it. This is why the timeit external code we used was actually set up as package or more specifically a source package (more on this later).
 
 When **applications** or **libraries** source code use modules provided by **other libraries**, the **compiler** needs to know **where those libraries reside in the file system**, in order to compile their code. It to be noted that, as can be seen in our source code above, there is no information about the **required external libraries** in Haskell source codes. The only information the compiler can get out of the source code is the set of names of the modules that are in use trough the **import statements**. This is where the need for **registration** _(as we have done above)_ comes from. In order to fully understand this, we depict how the GHC compilation pipeline works under the hood in the picture below    
@@ -200,3 +202,18 @@ These steps give us **the definition of a package from the point of view of the 
  - **Compiled library files (either static or dynamic)**
   
  - **The package descriptor file** *(not show in the picture but mentioned earlier as a .conf file)*
+  
+
+
+Consequently, as depicted above, those files must located somewhere in the file system and the compiler should be able to get this location from its package database. **That means every package must be registered with the compiler in order for GHC to be able to compile modules that require that package.** 
+
+Note that, rather than registering the packages manually as we did above, the appraoch in haskell is to use **packaging tools** such as **cabal** or **stack**, which can do all the work of downloading packages, compiling them, placing the packages in the file system, and registering them for us. 
+
+Therefore, this section serves the purpose to explain and remind us that **when working with these packaging systems tools, they are all operating on top of the compiler and its own low-level packaging system with the registered packages database.**
+
+
+## The GHC Package Databases
+
+**GHC operates two package databases** by default: **the global one** and **a user-specific one**, arranged in a stack with the user-specific database on top. It starts searching for packages at the top of the stack and continues all the way to the bottom. We can specify additional databases or compile our project against a completely different stack of package databases using the GHC_PACKAGE_PATH environment variable. GHC supports many flags that manipulate package databases and particular packages. Although package database stack tuning is normally done by a **higher-level packaging system** (e.g. stack or cabal), the compiler itself is ready to work with any well-formed set of packages — it’s the job of **the packaging system** to provide what is needed for our project.
+
+We can look through all the packages registered with the currently installed GHC with the ghc-pkg list command or get information about the package that provides some module with ghc-pkg find-module. 
