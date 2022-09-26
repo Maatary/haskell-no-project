@@ -1,14 +1,14 @@
 # Overview
 
-This project is an introductory work on understanding  how to compile haskell code and how the fundemantal of the haskell packaging system works. It is part of [my overall haskell learning journey project](https://github.com/Maatary/haskell-from-first-principles).   
+This project is an introductory work on understanding  how to compile haskell code and how the fundamental of the haskell packaging system works. It is part of [my overall haskell learning journey project](https://github.com/Maatary/haskell-from-first-principles).   
 
-# Appraoch
+# Approach
 
 It starts first with explaining how a simple haskell project that does not involve any external dependencies get compiled to produce an executable, and such without resorting to the use of the haskell packaging system.  
 
-Next, in order to start explaining the fundamental of the haskell packaging system, it showcase how to compile a haskell project that use external dependencies, yet still, without resorting to the use of the  haskell packaging ststem.  
+Next, in order to start explaining the fundamental of the haskell packaging system, it showcase how to compile a haskell project that use external dependencies, yet still, without resorting to the use of the haskell packaging system.  
 
-Finally, the fundementals of the haskell packaging system is explained.
+Finally, the fundamentals of the haskell packaging system is explained.
 
 
 
@@ -23,7 +23,7 @@ Compiling the haskell sources of a project, without resorting to packaging is do
  - Note that, as can be seen in the picture above we have a namespaced module Greetings.SayHello which follow the haskell convention expected by GHC, requiring an exact match between namespace and folder. Hence the Greetings folder and SayHello Module in it. We do this with the intent to also demonstrate/explain how during compilation ghc finds sources _(see below)_. 
 
 
- - We also intentionally name the module that contain the **main function** Test and locate it in the file Test.hs, again with the intent to explain some implicit but overlooked rules of compilation with ghc. Those rules are typically overlooked because when working with haskell packaging systems, convention are automatically applied when those tools scafold projects, hence, we just never pay attention to it. However certain projects may requires some specific setups, at that point, being aware of those rules is paramount.
+ - We also intentionally name the module that contain the **main function** Test and locate it in the file Test.hs, again with the intent to explain some implicit but overlooked rules of compilation with ghc. Those rules are typically overlooked because when working with haskell packaging systems, convention are automatically applied when those tools scaffold projects, hence, we just never pay attention to it. However certain projects may requires some specific setups, at that point, being aware of those rules is paramount.
 
  - The code is quite simple at this point
 
@@ -71,7 +71,7 @@ Compiling the haskell sources of a project, without resorting to packaging is do
         $ ghc Test.hs 
         ```
 
-   - Moreover we could have simply ommit the **Main** module inside the **Test.hs** and type the same as above. When that is the case, GHC consider that there is an implicit Main module.
+   - Moreover we could have simply omit the **Main** module inside the **Test.hs** and type the same as above. When that is the case, GHC consider that there is an implicit Main module.
         ```haskell
         import Greetings.SayHello
 
@@ -82,7 +82,7 @@ Compiling the haskell sources of a project, without resorting to packaging is do
 
    - It is important to note if none the rules on specifying the main function explicitly or implicitly as explained  above, and we simply type `ghc Test.hs` where in the **Test.hs** we have the **Test Module define** as in our current code base, then GHC would not generate an executable but simply compile the sources into the interface files and library object files.
   
-   - Finally when the program contains multiple modules, such as in our codebase, then we only need to tell GHC the name of the source file containing the Main module, and GHC will examine the import declarations to find the other modules that make up the program and find their source files. This means that, with the exception of the Main module, every source file should be named after the module name that it contains (with dots replaced by directory separators). That's why Greetings.SayHello, which as per haskell namespace rules is in Greeting/SayHello can be found by GHC during compilation. For more on module hiearchy and namespace please read the main learning project which this project complement https://github.com/Maatary/haskell-from-first-principles#module-hierarchy-namespaces-and-directory-structure
+   - Finally when the program contains multiple modules, such as in our codebase, then we only need to tell GHC the name of the source file containing the Main module, and GHC will examine the import declarations to find the other modules that make up the program and find their source files. This means that, with the exception of the Main module, every source file should be named after the module name that it contains (with dots replaced by directory separators). That's why Greetings.SayHello, which as per haskell namespace rules is in Greeting/SayHello can be found by GHC during compilation. For more on module hierarchy and namespace please read the main learning project which this project complement https://github.com/Maatary/haskell-from-first-principles#module-hierarchy-namespaces-and-directory-structure
 
 
    - **GHC Comilation References**
@@ -106,15 +106,15 @@ Compiling the haskell sources of a project, without resorting to packaging is do
 
 Compiling the haskell sources of a project with external dependencies, without resorting to packaging, is done as follows:
 
-- First, from within the current project (haskell-no-project), download the depenendency manually and unpack it.
+- First, from within the current project (haskell-no-project), download the dependency manually and unpack it.
 
   - For this demo we will be using the **TimeIt** library which can be found on [hackage](https://hackage.haskell.org/package/timeit) or better [stackage](https://www.stackage.org/lts-19.24/package/timeit-2.0). It provides for the functionality to time functions (monadic functions).
   
   - **It is important to note at this point that, in haskell, code which represent library, are made available online as package. In other words, code intended to be used by other as distributed as package. A Package among other, play the role of a unit of distribution in Haskell.**
   
-  - **Going into the detail of how package and packaging works is beyond the scope of this project, as the goal is to somewhat explain compilation without them.** However because we need to work with a dependency, such as to illustrate how to work with an external code, we had to download one, because in haskell anything that is available online is packaged. Nonetheless, as we will be illustrating further below, we will not use the haskell packaging appraoch. We will unpack it, and **"work as if"** it was just an external code that was not packaged originally. We say **"work as if"** because to speed up the all process **we will make a  minimal use of the packaging facility**, althought that is low level enough to keep being able to illustrate our point. Without it, the real process would be somewhat long and painfull. We will however provide references pointing to how to do it fully bare along the way.
+  - **Going into the detail of how package and packaging works is beyond the scope of this project, as the goal is to somewhat explain compilation without them.** However because we need to work with a dependency, such as to illustrate how to work with an external code, we had to download one, because in haskell anything that is available online is packaged. Nonetheless, as we will be illustrating further below, we will not use the haskell packaging approach. We will unpack it, and **"work as if"** it was just an external code that was not packaged originally. We say **"work as if"** because to speed up the all process **we will make a  minimal use of the packaging facility**, although that is low level enough to keep being able to illustrate our point. Without it, the real process would be somewhat long and painful. We will however provide references pointing to how to do it fully bare along the way.
 
-  - If you would like to open the timeIT project independenly of this project, using the LHS extension for VsCode to benefit from IDE assistance while browsing the code, you have the option to use my [fork of the TimeIt project](https://github.com/Maatary/timeit) which has been adapted to work smoothly with LHS extension for VSCode. The ReadMe of the project explain the adaptation.
+  - If you would like to open the timeIT project independently of this project, using the LHS extension for VsCode to benefit from IDE assistance while browsing the code, you have the option to use my [fork of the TimeIt project](https://github.com/Maatary/timeit) which has been adapted to work smoothly with LHS extension for VSCode. The ReadMe of the project explain the adaptation.
 
       ```shell
       $ curl http://hackage.haskell.org/package/timeit-2.0/timeit-2.0.tar.gz --output timeit-2.0.tar.gz                                              
@@ -158,7 +158,7 @@ Compiling the haskell sources of a project with external dependencies, without r
       main = defaultMain
       ```
 
-  - Note that [runhaskell (or its alias runghc)](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/runghc.html) is simply a **ghc command/script** that allows you to run Haskell programs without first having to compile them. It uses the internal interprer of GHC. It takes as parameter the Main module. For example, rather than  using the **Test executable** we produce earlier, we could have simply run `runhaskell Test.hs`. Here, we don't need an equivalent of `-main-is` because the command takes only the main module source file, while when we compile with GHC, the `ghc` command may take multiple source files as parameter, and therefore it needs to be told which module is the Main module.
+  - Note that [runhaskell (or its alias runghc)](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/runghc.html) is simply a **ghc command/script** that allows you to run Haskell programs without first having to compile them. It uses the internal interpreter of GHC. It takes as parameter the Main module. For example, rather than  using the **Test executable** we produce earlier, we could have simply run `runhaskell Test.hs`. Here, we don't need an equivalent of `-main-is` because the command takes only the main module source file, while when we compile with GHC, the `ghc` command may take multiple source files as parameter, and therefore it needs to be told which module is the Main module.
 
 
   - References about the **`Setup.sh`** script
@@ -207,7 +207,7 @@ These steps give us **the definition of a package from the point of view of the 
 
 Consequently, as depicted above, those files must located somewhere in the file system and the compiler should be able to get this location from its package database. **That means every package must be registered with the compiler in order for GHC to be able to compile modules that require that package.** 
 
-Note that, rather than registering the packages manually as we did above, the appraoch in haskell is to use **packaging tools** such as **cabal** or **stack**, which can do all the work of downloading packages, compiling them, placing the packages in the file system, and registering them for us. 
+Note that, rather than registering the packages manually as we did above, the approach in haskell is to use **packaging tools** such as **cabal** or **stack**, which can do all the work of downloading packages, compiling them, placing the packages in the file system, and registering them for us. 
 
 Therefore, this section serves the purpose to explain and remind us that **when working with these packaging systems tools, they are all operating on top of the compiler and its own low-level packaging system with the registered packages database.**
 
