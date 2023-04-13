@@ -66,13 +66,25 @@ Compiling the haskell sources of a project, without resorting to packaging is do
         $ ghc Main.hs 
         ``` 
 
-   - However for the **Main module** **the rule for "module" / "source file" strict name correspondance** are actually relaxed. So we could have had the file called **Test.hs** and the module inside it **Main** and then type
+   - However for the **Main module** **the rule for "module" / "source file" strict name correspondance** are actually relaxed. So we could have had the file called **Test.hs** and the module inside it **Main** and then compile `Test.hs` without `main-is`
+        ```haskell
+        -- Test.hs file with module named Main
+
+        module Main where
+  
+        import Greetings.SayHello
+
+        main :: IO ()
+        main = sayHello "Maat"
+        ```
         ```shell
         $ ghc Test.hs 
         ```
 
-   - Moreover we could have simply omit the **Main** module inside the **Test.hs** and type the same as above. When that is the case, GHC consider that there is an implicit Main module.
+   - Moreover we could have simply omit the **Main** module inside the **Test.hs** and compile the same way as above. When that is the case, GHC consider that there is an implicit Main module.
         ```haskell
+        -- Test.hs file without module
+
         import Greetings.SayHello
 
         main :: IO ()
@@ -110,7 +122,7 @@ Compiling the haskell sources of a project with external dependencies, without r
 
   - For this demo we will be using the **TimeIt** library which can be found on [hackage](https://hackage.haskell.org/package/timeit) or better [stackage](https://www.stackage.org/lts-19.24/package/timeit-2.0). It provides for the functionality to time functions (monadic functions).
   
-  - **It is important to note at this point that, in haskell, code which represent library, are made available online as package. In other words, code intended to be used by other as distributed as package. A Package among other, play the role of a unit of distribution in Haskell.**
+  - **It is important to note at this point that, in haskell, code which represent library, are made available online as package. In other words, code intended to be used by other are distributed as package. A Package among other, play the role of a unit of distribution in Haskell.**
   
   - **Going into the detail of how package and packaging works is beyond the scope of this section, as the goal is to somewhat explain compilation without them.** However because we need to work with a dependency, such as to illustrate how to work with an external code, we had to download one, because in haskell anything that is available online is packaged. Nonetheless, as we will be illustrating further below, we will not use the haskell packaging approach. We will unpack it, and **"work as if"** it was just an external code that was not packaged originally. We say **"work as if"** because to speed up the all process **we will make a  minimal use of the packaging facility**, although that is low level enough to keep being able to illustrate our point. Without it, the real process would be somewhat long and painful. We will however provide references pointing to how to do it fully bare along the way.
 
