@@ -80,7 +80,7 @@ Compiling the haskell sources of a project, without resorting to packaging is do
         ```
 
 
-   - It is important to note if none the rules on specifying the main function explicitly or implicitly as explained above are applied, and we simply type `ghc Test.hs` where in the **Test.hs** we have the **Test Module define** as in our current code base, then GHC would not generate an executable but simply compile the sources into the interface files and library object files.
+   - It is important to note if none of the rules on specifying the main function explicitly or implicitly as explained above are applied, and we simply type `ghc Test.hs` where in the **Test.hs** we have the **Test Module define** as in our current code base, then GHC would not generate an executable but simply compile the sources into the interface files and library object files.
   
    - Finally when the program contains multiple modules, such as in our codebase, then we only need to tell GHC the name of the source file containing the **Main module**, and GHC will examine the **import declarations** to find the other modules that make up the program and find their source files. This means that, with the exception of the **Main module**, every source file should be named after the module name that it contains (with dots replaced by directory separators). That's why Greetings.SayHello, which as per haskell namespace rules is in Greeting/SayHello can be found by GHC during compilation. For more on module hierarchy and namespace please read the main learning project which this project complement https://github.com/Maatary/haskell-from-first-principles#module-hierarchy-namespaces-and-directory-structure
 
