@@ -137,6 +137,42 @@ Compiling the haskell sources of a project with external dependencies, without r
 
    ![project tree](full-project-tree.png)
 
+- Modify the Program to use the the Timeit Module as so
+
+  ```haskell
+  module Test where
+    
+    import System.TimeIt
+    import Greetings.SayHello
+
+    main :: IO ()
+    main = timeItNamed "sayhello" $ sayHello "Maat" -- TimeIt Added here
+  ```
+
+- If we try to compile again, it will fail as follow
+
+  ```shell
+  $ ghc Test.hs 
+  [2 of 2] Compiling Test             ( Test.hs, Test.o )
+
+  Test.hs:3:3: error:
+      Could not find module ‘System.TimeIt’
+      Perhaps you meant System.Timeout (from base-4.16.4.0)
+      Use -v (or `:set -v` in ghci) to see a list of the files searched for.
+    |
+  3 |   import System.TimeIt
+    |   ^^^^^^^^^^^^^^^^^^^^
+
+  ```
+
+- As GHC report, it does not know anything about the module `System.TimeIt` which is in the folder timeit-2.0.
+
+
+- LHS with Vscode also highlight the error
+  
+  ![project tree](import-timeit-package-fail.png)
+  
+
 - We then register the library as follow
 
    ```shell
